@@ -16,7 +16,7 @@ db.on('error', function (error) {
 });
 
 db.on('close', function () {
-    console.log('数据库断开，重新连接数据库');
+    console.log('***********数据库断开，重新连接数据库************');
     mongoose.connect(config.url);
 });
 

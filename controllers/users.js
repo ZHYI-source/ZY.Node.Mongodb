@@ -20,12 +20,12 @@ exports.userlist = [
             }
             let result = await userModel.find({})
             let total = await userModel.find({}).count()
-            log.debug('请求成功')
             return apiResponse.successResponseWithData(res, "Operation Success.", result.length > 0 ? {
                 result,
                 total
             } : {result: [], total});
         } catch (err) {
+            log.error('用户查询失败')
             return apiResponse.ErrorResponse(res, err);
         }
     }]
