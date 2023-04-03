@@ -1,18 +1,20 @@
 # ZY.Node.Mongodb
- 
+
 - 这是基于Express + MongoDB编写的基本API骨架。对于为Android，iOS或JavaScript Frameworks（Vue，React等）等前端平台构建纯净的Web API非常有用。
 
-- 该项目使用mongoDB作为数据库在nodejs上运行。我尝试做出轻松维护代码结构的项目样板，因为任何初学者也可以采用该流程并开始构建API。
-项目开放，可以提出建议，错误报告和提取请求进一步优化。
+- 该项目使用mongoDB作为数据库在nodejs上运行。我尝试做出轻松维护代码结构的项目样板，因为任何初学者也可以采用该流程并开始构建API。 项目开放，可以提出建议，错误报告和提取请求进一步优化。
+
 ## 作者
 
 ---
+
 - [@ZY_GITEE](https://gitee.com/Z568_568)
 - [@ZY_GITHUB](https://github.com/ZHYI-source)
 
 ## 项目特点
 
 ---
+
 - 轻量级API项目
 - MVC结构
 - CRUD操作示例
@@ -23,10 +25,10 @@
 - 集成swagger-ui
 - postman集合
 
-
 ## 启动安装
 
 ---
+
 ```bash
   git clone https://gitee.com/Z568_568/node.mongodb.git
   cd node.mongodb
@@ -35,15 +37,18 @@
   开发环境：npm run dev  基于 nodemon 热更新
   生产环境：npm run start
 ```
+
 ## 环境参考
 
 ---
+
 - Node.js 14.18.1+
 - MongoDB 5.1+
 
 ## 项目结构
 
 ---
+
 ```sh
 .
 ├── app.js                  //入口文件
@@ -79,7 +84,6 @@
     ├── apiResponse.js
     └── ...
 ```
-
 
 ## License
 
