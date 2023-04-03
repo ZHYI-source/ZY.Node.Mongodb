@@ -3,6 +3,7 @@ const mongoose = require('mongoose')
 const {query, validationResult} = require('express-validator');
 const authenticate = require('../middlewares/jwt')
 const apiResponse = require('../helper/apiResponse')
+const log = require('../utils/utils.logger')
 
 /**
  * User list.
@@ -19,6 +20,7 @@ exports.userlist = [
             }
             let result = await userModel.find({})
             let total = await userModel.find({}).count()
+            log.debug('请求成功')
             return apiResponse.successResponseWithData(res, "Operation Success.", result.length > 0 ? {
                 result,
                 total

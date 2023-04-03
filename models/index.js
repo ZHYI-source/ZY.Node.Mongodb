@@ -1,5 +1,4 @@
-const userModel =require('./users')
 
 module.exports = {
-    userModel
+    userModel:require('./users'),
 }

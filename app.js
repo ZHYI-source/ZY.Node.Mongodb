@@ -1,4 +1,3 @@
-
 const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
@@ -9,8 +8,9 @@ const mount = require('mount-routes')
 const apiResponse = require('./helper/apiResponse')
 // https://www.npmjs.com/package/chalk
 const chalk = require('chalk');
-//访问 .env文件
-require('dotenv').config()
+const isDev = process.env.NODE_ENV === 'development'
+//访问不同的 .env文件
+require('dotenv').config({path: isDev ? './.env.development' : './.env.production'})
 // 数据库连接
 require('./db/index')
 const app = express();
@@ -33,16 +33,14 @@ app.all('*', function (req, res, next) {
     /*让options请求快速返回*/
     else next()
 })
-
+console.log(process.env.SIGN_KEY)
 
 // 获取系统环境变量 返回值是对象
-if (process.env.NODE_ENV === 'development') {
-    // 当前是开发环境
+if (isDev) {
     console.log('当前是开发环境')
     // 在开发环境中 将客户端发送到服务器端的请求信息打印到控制台中
     app.use(logger('dev'))
 } else {
-    // 当前是生产环境
     console.log('当前是生产环境')
 }
 app.use(express.json());
@@ -57,7 +55,7 @@ const options = require('./config/swagger.config') //配置信息
 expressSwagger(options)
 
 // 带路径的用法并且可以打印出路由表  true 代表展示路由表在打印台
-mount(app, path.join(process.cwd(), '/routes'), true)
+mount(app, path.join(process.cwd(), '/routes'), isDev)
 
 
 // throw 404 if URL not found
