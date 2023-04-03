@@ -11,7 +11,7 @@ const options = {
             version: '1.0.0',
             description: `芒果快熟’接口api`
         },
-        host: 'localhost:3000',
+        host: `${process.env.URL}:${process.env.PORT}`,
         basePath: '/v1',
         produces: ['application/json', 'application/xml'],
         schemes: ['http', 'https'],

@@ -33,15 +33,13 @@ app.all('*', function (req, res, next) {
     /*让options请求快速返回*/
     else next()
 })
-console.log(process.env.SIGN_KEY)
-
 // 获取系统环境变量 返回值是对象
 if (isDev) {
-    console.log('当前是开发环境')
+    console.log(chalk.bold.yellow('当前是开发环境'))
     // 在开发环境中 将客户端发送到服务器端的请求信息打印到控制台中
     app.use(logger('dev'))
 } else {
-    console.log('当前是生产环境')
+    console.log(chalk.bold.yellow('当前是生产环境'))
 }
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
@@ -70,6 +68,15 @@ app.use((err, req, res) => {
 });
 
 app.listen(process.env.PORT, () => {
+    console.log(chalk.bold.green(`
+┌────────────────────────────────────────────────────────────────────────┐
+│   xxxxxxxxxx      xx     xx             xx         xxxxxx    xxxxxxx   │
+│        xxxx        xxx xxx             xx x        xx   xx   xxxxxxx   │
+│       xx             xxx       xxx     x  xx       xx   xx      xx     │
+│     xx               xx        xxx    xxxxxxx      xxxxxx       xx     │
+│    xx                xx              xx     x      xx        xxxxxxx   │
+│   xxxxxxxxxx         xx              x      xx     xx        xxxxxxx   │
+└────────────────────────────────────────────────────────────────────────┘`))
     console.log(chalk.bold.green(`项目启动成功: ${process.env.URL}:${process.env.PORT}`));
     console.log(chalk.bold.green(`接口文档地址: ${process.env.URL}:${process.env.PORT}/swagger`));
 });

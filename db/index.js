@@ -2,11 +2,12 @@ const mongoose = require('mongoose');
 const config = require('../config/db.config');
 mongoose.connect(config.url);
 mongoose.Promise = global.Promise;
-
+const chalk = require('chalk');
 const db = mongoose.connection;
 
 db.once('open', () => {
-    console.log('连接数据库成功' + db.name)
+    let isDev = process.env.NODE_ENV === 'development'
+    console.log(chalk.rgb(123, 45, 67).bold(`连接${isDev ? chalk.blue.bold('开发环境') : chalk.blue.bold('生产环境')}数据库成功：` + chalk.hex('#DEADED').underline(db.name)))
 })
 
 db.on('error', function (error) {
