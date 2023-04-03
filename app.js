@@ -15,6 +15,7 @@ require('dotenv').config({path: isDev ? './.env.development' : './.env.productio
 require('./db/index')
 const app = express();
 
+
 //处理post参数解析
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: false}))
@@ -22,17 +23,18 @@ app.use(bodyParser.urlencoded({extended: false}))
 app.use(cors())
 
 // 设置跨域和相应数据格式
-app.all('*', function (req, res, next) {
+app.all('/v1/*', function (req, res, next) {
     res.header('Access-Control-Allow-Origin', '*')
     res.header('Access-Control-Allow-Headers', 'X-Requested-With, token')
     res.header('Access-Control-Allow-Headers', 'X-Requested-With, Authorization')
     res.header('Content-Type', 'application/json;charset=UTF-8')
     res.header('Access-Control-Allow-Headers', 'Content-Type,Content-Length, Authorization, Accept,X-Requested-With')
     res.header('Access-Control-Allow-Methods', 'PUT,POST,GET,DELETE,OPTIONS')
-    if (req.method === 'OPTIONS') res.send(200)
+    if (req.method == 'OPTIONS') res.send(200)
     /*让options请求快速返回*/
     else next()
 })
+
 // 获取系统环境变量 返回值是对象
 if (isDev) {
     console.log(chalk.bold.yellow('当前是开发环境'))
@@ -46,7 +48,7 @@ app.use(express.urlencoded({extended: false}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-// 使用swagger API 文档
+// 使用swagger API 文档 必须在解决跨域设置数据格式之前
 // https://www.npmjs.com/package/express-swagger-generator
 const expressSwagger = require('express-swagger-generator')(app)
 const options = require('./config/swagger.config') //配置信息
@@ -54,7 +56,6 @@ expressSwagger(options)
 
 // 带路径的用法并且可以打印出路由表  true 代表展示路由表在打印台
 mount(app, path.join(process.cwd(), '/routes'), isDev)
-
 
 // throw 404 if URL not found
 app.all("*", function (req, res) {
@@ -66,8 +67,6 @@ app.use((err, req, res) => {
         return apiResponse.unauthorizedResponse(res, err.message);
     }
 });
-
-
 
 
 app.listen(process.env.PORT, () => {

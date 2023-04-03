@@ -20,6 +20,7 @@
 - 日志管理
 - 统一响应格式
 - jwt
+- 集成swagger-ui
 - postman集合
 
 
