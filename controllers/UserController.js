@@ -13,6 +13,7 @@ const log = require('../utils/utils.logger')
 exports.userlist = [
     authenticate,
     async (req, res) => {
+        console.log(req.auth)
         try {
             const errors = validationResult(req);
             if (!errors.isEmpty()) {

@@ -11,6 +11,7 @@ const chalk = require('chalk');
 const isDev = process.env.NODE_ENV === 'development'
 //访问不同的 .env文件
 require('dotenv').config({path: isDev ? './.env.development' : './.env.production'})
+require('express-async-errors');
 // 数据库连接
 require('./db/index')
 const app = express();
@@ -54,6 +55,7 @@ const expressSwagger = require('express-swagger-generator')(app)
 const options = require('./config/swagger.config') //配置信息
 expressSwagger(options)
 
+
 // 带路径的用法并且可以打印出路由表  true 代表展示路由表在打印台
 mount(app, path.join(process.cwd(), '/routes'), isDev)
 
@@ -62,8 +64,8 @@ app.all("*", function (req, res) {
     return apiResponse.notFoundResponse(res, "404 --- Page not found");
 });
 
-app.use((err, req, res) => {
-    console.log('123',err)
+app.use(function (err, req, res) {
+    console.log('*****123',err.name)
     if (err.name === "UnauthorizedError") {
         return apiResponse.unauthorizedResponse(res, err.message);
     }
