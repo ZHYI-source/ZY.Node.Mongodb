@@ -3,9 +3,9 @@ const {body, query, validationResult} = require('express-validator');
 const {UserModel} = require('../models')
 const apiResponse = require('../helper/apiResponse')
 const mailer = require('../helper/mailer')
-const {randomNumber} = require('../utils/utils.others')
+const {randomNumber, encryption, decryption} = require('../utils/utils.others')
 const log = require('../utils/utils.logger')
-const sessionAuth = require('../middlewares/session')
+
 
 /**
  * TODO:
@@ -27,7 +27,7 @@ exports.register = [
     //必填参数验证
     [
         body("username").isLength({min: 1}).trim().withMessage('昵称不能为空.'),
-        body("password").isLength({min: 6}).trim().withMessage('密码不能小于6位.').isInt().withMessage('密码必须为整数.'),
+        body("password").isLength({min: 6}).trim().withMessage('密码不能小于6位.'),
         body('email').isLength({min: 1}).trim().withMessage('邮箱不能为空.').isEmail().normalizeEmail().withMessage('邮箱格式不正确.').custom((value, {req}) => {
             return UserModel.findOne({email: value}).then(user => {
                 if (user) {
@@ -45,22 +45,27 @@ exports.register = [
             } else {
                 // 生成4位随机验证码
                 let code = randomNumber(4);
+                // 密码加密
+                let enPassword = await encryption(req.body.password)
                 //Save user.
                 let newUser = {
                     username: req.body.username,
-                    password: req.body.password,
+                    password: enPassword,
                     email: req.body.email,
                 };
+
                 const addInfo = await UserModel.create(newUser)
                 if (addInfo) {
                     //发送邮件: 含有验证码、点击确认操作
                     await mailer.send(req.body.email, `恭喜您已注册成功🎈 感谢您的支持！✨验证码：${code}`)
+                    //session存储验证码
                     req.session.code = code
                     console.log('验证码：', code)
-                    return apiResponse.successResponseWithData(res, "注册成功,请注意您的邮箱信息,请进行账号确认.", addInfo);
+                    return apiResponse.successResponse(res, "注册成功,请注意您的邮箱信息,请进行账号确认.",);
                 }
             }
         } catch (err) {
+            console.log(err)
             return apiResponse.ErrorResponse(res, err);
         }
     }
@@ -88,7 +93,9 @@ exports.login = [
             } else {
                 const userWithEmail = await UserModel.findOne({email: req.body.email})
                 if (!userWithEmail) return apiResponse.unauthorizedResponse(res, "用户不存在.");
-                if (userWithEmail.password !== req.body.password) return apiResponse.unauthorizedResponse(res, "密码错误.");
+                // 密码解密
+                let isPass = await decryption(req.body.password, userWithEmail.password)
+                if (!isPass) return apiResponse.unauthorizedResponse(res, "密码错误.");
                 if (!userWithEmail.isConfirmed) return apiResponse.unauthorizedResponse(res, "当前账户未验证,请前往验证您的账户.");
                 if (!userWithEmail.status) return apiResponse.unauthorizedResponse(res, "当前账户已被禁用,请联系管理员.");
 
@@ -104,7 +111,7 @@ exports.login = [
                         expiresIn: 3600 * 24 * 3 // token 3天有效期
                     }
                 )
-                log.info(`*** 昵称 : ${userWithEmail.username} 登录成功`)
+                log.info(`*** 昵称: ${userWithEmail.username} 登录成功`)
                 return apiResponse.successResponseWithData(res, "登录成功.", userData);
             }
         } catch (err) {
@@ -191,6 +198,7 @@ exports.resendConfirmCode = [
                 })
                 // 发送验证码
                 await mailer.send(req.query.email, `✨您的验证码：${newCode}`)
+                //session存储验证码
                 req.session.code = newCode
                 console.log('新的验证码：', newCode)
                 return apiResponse.successResponse(res, "验证码发送成功！.");

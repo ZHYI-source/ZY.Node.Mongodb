@@ -1,6 +1,6 @@
 # ZY.Node.Mongodb
 
-- 这是基于Express + MongoDB编写的基本API骨架。对于为Android，iOS或JavaScript Frameworks（Vue，React等）等前端平台构建纯净的Web API非常有用。
+- 这是基于 Node.js、Express 和 MongoDB 进行 REST API 开发的样板。对于为Android，iOS或JavaScript Frameworks（Vue，React等）等前端平台构建纯净的Web API非常有用。
 
 - 该项目使用mongoDB作为数据库在nodejs上运行。我尝试做出轻松维护代码结构的项目样板，因为任何初学者也可以采用该流程并开始构建API。 项目开放，可以提出建议，错误报告和提取请求进一步优化。
 
@@ -20,12 +20,15 @@
 - CRUD操作示例
 - 跨域处理
 - 日志管理
-- 统一响应格式
+- 具有恰当的状态代码的预定义响应结构
 - 全局错误处理
+- 增加express-validator请求参数校验
 - jwt验证 用户权限中间件分离
-- session 验证码校验
+- 基本身份验证（采用bcrypt单向Hash加密算法加密密码进行注册/登录）
+- Token生成和校验请求头的authorization 
 - 集成swagger-ui
-- 注册成功邮件通知
+- 增加邮件验证码通知
+- session 验证码校验
 
 
 ## 启动安装
