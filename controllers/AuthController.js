@@ -18,6 +18,7 @@ const {randomNumber} = require('../utils/utils.others')
 /******************************************************************************************/
 
 
+
 /**
  * User register 用户注册.邮件通知
  * @param {string}  username 用户名
@@ -58,7 +59,7 @@ exports.register = [
                 if (addInfo) {
                     //发送邮件: 含有验证码、点击确认操作
                     await mailer.send(req.body.email, `恭喜您已注册成功🎈 感谢您的支持！✨验证码：${code}`)
-                    return apiResponse.successResponseWithData(res, "注册成功.", addInfo);
+                    return apiResponse.successResponseWithData(res, "注册成功,请注意您的邮箱信息,请进行账号确认.", addInfo);
                 }
             }
         } catch (err) {
@@ -146,7 +147,7 @@ exports.verifyConfirm = [
                     }).catch(err => {
                         return apiResponse.ErrorResponse(res, err);
                     });
-                    return apiResponse.successResponse(res, "账户验证成功！.");
+                    return apiResponse.successResponse(res, "账户验证成功！可进行登录.");
                 } else {
                     // 暂时不做验证码过期处理
                     return apiResponse.unauthorizedResponse(res, "验证码错误");
