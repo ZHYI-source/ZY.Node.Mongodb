@@ -1,11 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const authenticate = require('../../middlewares/jwt')
 const usersControllers = require('../../controllers/UserController')
 
 /**
  * 用户信息查询
- * @route GET /users
+ * @route get /users
  * @group 用户管理 - Operations users-admin
  * @returns {object} 200 - An array of about info
  * @returns {object} 605 - 请求失败

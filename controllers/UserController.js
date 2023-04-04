@@ -3,6 +3,7 @@ const mongoose = require('mongoose')
 const {query, validationResult} = require('express-validator');
 const authenticate = require('../middlewares/jwt')
 const apiResponse = require('../helper/apiResponse')
+const permissions = require('../middlewares/permissions')
 const log = require('../utils/utils.logger')
 
 /**
@@ -12,6 +13,7 @@ const log = require('../utils/utils.logger')
  */
 exports.userlist = [
     authenticate,
+    permissions,
     async (req, res) => {
         console.log(req.auth)
         try {

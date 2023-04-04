@@ -68,7 +68,7 @@
 ├── routes                  //路由（配置实际API地址路径）
 │     └── v1
 │         ├── index.js
-│         ├── users.js
+│         ├── user.js
 │         └── ...
 ├── db                      //mongodb数据库连接
 │   ├── index.js              

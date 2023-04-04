@@ -36,7 +36,6 @@ app.all('/v1/*', function (req, res, next) {
     else next()
 })
 
-// 获取系统环境变量 返回值是对象
 if (isDev) {
     console.log(chalk.bold.yellow('当前是开发环境'))
     // 在开发环境中 将客户端发送到服务器端的请求信息打印到控制台中
@@ -61,14 +60,16 @@ mount(app, path.join(process.cwd(), '/routes'), isDev)
 
 // throw 404 if URL not found
 app.all("*", function (req, res) {
-    return apiResponse.notFoundResponse(res, "404 --- Page not found");
+    return apiResponse.notFoundResponse(res, "404 --- 接口不存在");
 });
 
-app.use(function (err, req, res) {
-    console.log('*****123',err.name)
+
+app.use(function (err, req, res, next) {
     if (err.name === "UnauthorizedError") {
-        return apiResponse.unauthorizedResponse(res, err.message);
+        return apiResponse.unauthorizedResponse(res, 'token不存在或已过期');
     }
+    //TODO: 必须把错误传递出去 否则这里无法捕获到中间件 throw Error() 的错误
+    next(err);
 });
 
 

@@ -1,3 +1,9 @@
+/**
+ *@author ZY
+ *@date 2023/4/4
+ *@Description:Token身份验证中间件
+*/
+
 const {expressjwt: jwt} = require("express-jwt");
 const secret = process.env.SIGN_KEY;
 const authenticate = jwt({
