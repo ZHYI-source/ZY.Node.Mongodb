@@ -180,17 +180,16 @@ exports.resendConfirmCode = [
                 if (!userInfo) return apiResponse.unauthorizedResponse(res, "邮箱号码不存在.");
                 if (userInfo.isConfirmed) return apiResponse.unauthorizedResponse(res, "账户已经验证.");
 
-                //发送验证码
-                let code = randomNumber(4);
-
-
-                await UserModel.findOneAndUpdate(query, {isConfirmed: 0, confirmOTP: code}).catch(err => {
+                // 生成新验证码
+                let newCode = randomNumber(4);
+                // 更新用户验证状态 验证码
+                await UserModel.findOneAndUpdate(query, {isConfirmed: 0, confirmOTP: newCode}).catch(err => {
                     return apiResponse.ErrorResponse(res, err);
                 })
-                await mailer.send(req.query.email, `✨您的验证码：${code}`)
+                // 发送验证码
+                await mailer.send(req.query.email, `✨您的验证码：${newCode}`)
 
                 return apiResponse.successResponse(res, "验证码发送成功！.");
-
 
             }
         } catch (err) {
