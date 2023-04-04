@@ -24,6 +24,7 @@ app.use(bodyParser.urlencoded({extended: false}))
 //解决跨域
 app.use(cors())
 
+
 // 设置跨域和相应数据格式
 app.all('/v1/*', function (req, res, next) {
     res.header('Access-Control-Allow-Origin', '*')
