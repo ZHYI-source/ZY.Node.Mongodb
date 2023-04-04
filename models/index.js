@@ -1,4 +1,4 @@
 
 module.exports = {
-    userModel:require('./UserModel'),
+    UserModel:require('./UserModel'),
 }

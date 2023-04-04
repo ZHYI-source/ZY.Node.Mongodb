@@ -1,4 +1,4 @@
-const {userModel} = require('../models')
+const {UserModel} = require('../models')
 const mongoose = require('mongoose')
 const {query, validationResult} = require('express-validator');
 const authenticate = require('../middlewares/jwt')
@@ -21,8 +21,8 @@ exports.userlist = [
             if (!errors.isEmpty()) {
                 return apiResponse.validationErrorWithData(res, "Validation Error.", errors.array())
             }
-            let result = await userModel.find({})
-            let total = await userModel.find({}).count()
+            let result = await UserModel.find({})
+            let total = await UserModel.find({}).count()
             return apiResponse.successResponseWithData(res, "Operation Success.", result.length > 0 ? {
                 result,
                 total
@@ -42,7 +42,7 @@ exports.userlist = [
 exports.userCreate = [
     authenticate,
     query("name", "name must not be empty.").isLength({min: 1}).trim().custom((value, {req}) => {
-        return userModel.findOne({name: value}).then(book => {
+        return UserModel.findOne({name: value}).then(book => {
             if (book) {
                 return Promise.reject("name already exist with this ISBN no.");
             }
@@ -62,7 +62,7 @@ exports.userCreate = [
                     address: '贵州省贵阳市',
                     hobbies: ['你好啊', '前端']
                 }];
-                const addInfo = await userModel.create(array)
+                const addInfo = await UserModel.create(array)
                 if (addInfo) {
                     return apiResponse.successResponseWithData(res, "user add Success.", addInfo);
                 }
@@ -86,7 +86,7 @@ exports.userDelete = [
             return apiResponse.validationErrorWithData(res, "Invalid Error.", "参数id错误");
         }
         try {
-            userModel.findByIdAndDelete(req.query.id).then((user) => {
+            UserModel.findByIdAndDelete(req.query.id).then((user) => {
                 if (!user) {
                     return apiResponse.notFoundResponse(res, '该条数据不存在或已被删除');
                 }
@@ -112,10 +112,10 @@ exports.userUpdate = [
             return apiResponse.validationErrorWithData(res, "Invalid Error.", "参数id错误");
         }
         try {
-            const userInfo = await userModel.findById(req.query.id)
+            const userInfo = await UserModel.findById(req.query.id)
             if (!userInfo) return apiResponse.notFoundResponse(res, "该ID下的数据不存在或被删除");
             //update userData.
-            const userData = await userModel.findByIdAndUpdate(req.query.id, req.query)
+            const userData = await UserModel.findByIdAndUpdate(req.query.id, req.query)
             if (userData) return apiResponse.successResponse(res, "用户更新成功.", userData);
         } catch (err) {
             //throw error in json response with status 500.

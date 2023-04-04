@@ -66,6 +66,7 @@ app.all("*", function (req, res) {
 
 
 app.use(function (err, req, res, next) {
+
     if (err.name === "UnauthorizedError") {
         return apiResponse.unauthorizedResponse(res, 'token不存在或已过期');
     }
