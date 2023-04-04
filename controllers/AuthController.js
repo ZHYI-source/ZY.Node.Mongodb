@@ -5,6 +5,7 @@ const apiResponse = require('../helper/apiResponse')
 const mailer = require('../helper/mailer')
 const {randomNumber} = require('../utils/utils.others')
 const log = require('../utils/utils.logger')
+const sessionAuth = require('../middlewares/session')
 
 /**
  * TODO:
@@ -49,12 +50,13 @@ exports.register = [
                     username: req.body.username,
                     password: req.body.password,
                     email: req.body.email,
-                    confirmOTP: code,
                 };
                 const addInfo = await UserModel.create(newUser)
                 if (addInfo) {
                     //发送邮件: 含有验证码、点击确认操作
                     await mailer.send(req.body.email, `恭喜您已注册成功🎈 感谢您的支持！✨验证码：${code}`)
+                    req.session.code = code
+                    console.log('验证码：', code)
                     return apiResponse.successResponseWithData(res, "注册成功,请注意您的邮箱信息,请进行账号确认.", addInfo);
                 }
             }
@@ -133,21 +135,22 @@ exports.verifyConfirm = [
                 // console.error('****validationError*****: '+errors.array()[0].msg)
                 return apiResponse.validationErrorWithData(res, errors.array()[0].msg);
             } else {
+                let {code} = req.session
+                if (!code) return apiResponse.unauthorizedResponse(res, "验证码已失效,请重新获取.");
                 //
                 let query = {email: req.query.email};
                 const userInfo = await UserModel.findOne(query)
                 if (!userInfo) return apiResponse.unauthorizedResponse(res, "邮箱号码不存在.");
 
-                if (userInfo.confirmOTP === req.query.code) {
+                // if (userInfo.confirmOTP === req.query.code) {
+                if (code === Number(req.query.code)) {
                     UserModel.findOneAndUpdate(query, {
                         isConfirmed: 1,
-                        confirmOTP: null //置空验证码
                     }).catch(err => {
                         return apiResponse.ErrorResponse(res, err);
                     });
                     return apiResponse.successResponse(res, "账户验证成功！可进行登录.");
                 } else {
-                    // 暂时不做验证码过期处理
                     return apiResponse.unauthorizedResponse(res, "验证码错误");
                 }
             }
@@ -181,18 +184,21 @@ exports.resendConfirmCode = [
 
                 // 生成新验证码
                 let newCode = randomNumber(4);
+
                 // 更新用户验证状态 验证码
-                await UserModel.findOneAndUpdate(query, {isConfirmed: 0, confirmOTP: newCode}).catch(err => {
+                await UserModel.findOneAndUpdate(query, {isConfirmed: 0}).catch(err => {
                     return apiResponse.ErrorResponse(res, err);
                 })
                 // 发送验证码
-                await mailer.send(req.query.email, `✨您的验证码：${newCode}`)
-
+                // await mailer.send(req.query.email, `✨您的验证码：${newCode}`)
+                req.session.code = newCode
+                console.log('验证码：', newCode)
                 return apiResponse.successResponse(res, "验证码发送成功！.");
 
             }
         } catch (err) {
-            return apiResponse.ErrorResponse(res, err);
+            console.log(err)
+            return apiResponse.ErrorResponse(res, JSON.stringify(err));
         }
     }
 ]

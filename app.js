@@ -14,10 +14,10 @@ require('dotenv').config({path: isDev ? './.env.development' : './.env.productio
 require('express-async-errors');
 // 数据库连接
 require('./db/index')
-
+const session = require('./middlewares/session')
 const app = express();
 
-
+app.use(session)
 //处理post参数解析
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: false}))
