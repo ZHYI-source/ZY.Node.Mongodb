@@ -6,6 +6,8 @@ const apiResponse = require('../helper/apiResponse')
 const permissions = require('../middlewares/permissions')
 const log = require('../utils/utils.logger')
 
+/*https://console-docs.apipost.cn/preview/8a5be4548bdc2526/c26d8e85b6e0624f*/
+
 /**
  * User list.
  *
