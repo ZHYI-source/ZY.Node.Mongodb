@@ -15,16 +15,22 @@ exports.userlist = [
     authenticate,
     permissions,
     async (req, res) => {
-        console.log(req.auth)
+        // console.log(req.auth)
         try {
             const errors = validationResult(req);
-            if (!errors.isEmpty()) {
-                return apiResponse.validationErrorWithData(res, "Validation Error.", errors.array())
+            if (!errors.isEmpty()) return apiResponse.validationErrorWithData(res, "Validation Error.", errors.array())
+
+            let query = {
+                current: 1,
+                pageSize: 20,
+                params: {},
             }
-            let result = await UserModel.find({})
+            let result = await UserModel.find(query.params).skip((query.current - 1) * query.pageSize).limit(query.pageSize)
             let total = await UserModel.find({}).count()
-            return apiResponse.successResponseWithData(res, "Operation Success.", result.length > 0 ? {
+            return apiResponse.successResponseWithData(res, "Success.", result.length > 0 ? {
                 result,
+                current: 1,
+                pageSize: 20,
                 total
             } : {result: [], total});
         } catch (err) {

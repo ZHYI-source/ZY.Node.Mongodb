@@ -12,14 +12,14 @@ const options = {
             description: `基于Express + MongoDB编写的基本API骨架。项目地址：https://gitee.com/Z568_568/node.mongodb.git`
         },
         host: `${process.env.SWA_HOST}:${process.env.SWA_PORT}`,
-        basePath: '/v1',
+        basePath: '/',
         produces: ['application/json', 'application/xml'],
         schemes: ['http', 'https'],
         securityDefinitions: {
             JWT: {
                 type: 'apiKey',
                 in: 'header',
-                name: 'Authorization',
+                name: 'authorization',
                 description: 'token'
             }
         }
