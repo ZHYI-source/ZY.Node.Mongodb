@@ -14,6 +14,7 @@ require('dotenv').config({path: isDev ? './.env.development' : './.env.productio
 require('express-async-errors');
 // 数据库连接
 require('./db/index')
+
 const app = express();
 
 
@@ -87,7 +88,7 @@ app.listen(process.env.PORT, () => {
 | '--------------' || '--------------' || '--------------' || '--------------' || '--------------' || '--------------' |
  '----------------'  '----------------'  '----------------'  '----------------'  '----------------'  '----------------' 
 `))
-    console.log(chalk.bold.green(`项目启动成功: ${process.env.URL}:${process.env.PORT}`));
+    console.log(chalk.bold.green(`项目启动成功: ${process.env.URL}:${process.env.PORT}/v1`));
     console.log(chalk.bold.green(`接口文档地址: ${process.env.URL}:${process.env.PORT}/swagger`));
 });
 
