@@ -40,8 +40,7 @@ router.post('/create', UserController.userCreate);
  * 用户删除
  * @route POST /v1/user/delete
  * @group 用户管理 - 用户相关
- * @param {string} email 邮箱
- * @param {string} password 密码
+ * @param {string} id 用户id
  * @security JWT   需要token
  * @returns {object} 200 - {"status": 1,"message": "....","data": {...},"time": 1680598858753}
  * @returns {Error}  default - Unexpected error
@@ -54,6 +53,7 @@ router.post('/delete', UserController.userDelete);
  * @group 用户管理 - 用户相关
  * @param {string} email 邮箱
  * @param {string} password 密码
+ * @param {string} id ID
  * @security JWT   需要token
  * @returns {object} 200 - {"status": 1,"message": "....","data": {...},"time": 1680598858753}
  * @returns {Error}  default - Unexpected error

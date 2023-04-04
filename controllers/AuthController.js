@@ -1,13 +1,10 @@
-const {UserModel} = require('../models')
-const mongoose = require('mongoose')
 const jwt = require("jsonwebtoken");
 const {body, query, validationResult} = require('express-validator');
-const authenticate = require('../middlewares/jwt')
+const {UserModel} = require('../models')
 const apiResponse = require('../helper/apiResponse')
 const mailer = require('../helper/mailer')
-const permissions = require('../middlewares/permissions')
-const log = require('../utils/utils.logger')
 const {randomNumber} = require('../utils/utils.others')
+const log = require('../utils/utils.logger')
 
 /**
  * TODO:
@@ -16,7 +13,6 @@ const {randomNumber} = require('../utils/utils.others')
  *   eg:isLength isEmail trim ...
  * */
 /******************************************************************************************/
-
 
 
 /**
@@ -89,7 +85,7 @@ exports.login = [
                 return apiResponse.validationErrorWithData(res, errors.array()[0].msg);
             } else {
                 const userWithEmail = await UserModel.findOne({email: req.body.email})
-                if (!userWithEmail) return apiResponse.unauthorizedResponse(res, "用户名错误.");
+                if (!userWithEmail) return apiResponse.unauthorizedResponse(res, "用户不存在.");
                 if (userWithEmail.password !== req.body.password) return apiResponse.unauthorizedResponse(res, "密码错误.");
                 if (!userWithEmail.isConfirmed) return apiResponse.unauthorizedResponse(res, "当前账户未验证,请前往验证您的账户.");
                 if (!userWithEmail.status) return apiResponse.unauthorizedResponse(res, "当前账户已被禁用,请联系管理员.");
@@ -106,10 +102,12 @@ exports.login = [
                         expiresIn: 3600 * 24 * 3 // token 3天有效期
                     }
                 )
+                log.info(`*** 昵称 : ${userWithEmail.username} 登录成功`)
                 return apiResponse.successResponseWithData(res, "登录成功.", userData);
             }
         } catch (err) {
             console.log(err);
+            log.error(`*** 邮箱 : ${req.body.email} 登录失败 ** 错误信息 : ${JSON.stringify(err)}`)
             return apiResponse.ErrorResponse(res, err);
         }
     }

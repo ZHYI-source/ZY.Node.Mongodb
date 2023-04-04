@@ -1,12 +1,10 @@
-const {UserModel} = require('../models')
 const mongoose = require('mongoose')
-const {query, validationResult} = require('express-validator');
+const {body, validationResult} = require('express-validator');
+const {UserModel} = require('../models')
 const authenticate = require('../middlewares/jwt')
 const apiResponse = require('../helper/apiResponse')
 const permissions = require('../middlewares/permissions')
 const log = require('../utils/utils.logger')
-
-/*https://console-docs.apipost.cn/preview/8a5be4548bdc2526/c26d8e85b6e0624f*/
 
 /**
  * User list.
@@ -27,55 +25,54 @@ exports.userlist = [
                 pageSize: 20,
                 params: {},
             }
-            let result = await UserModel.find(query.params).skip((query.current - 1) * query.pageSize).limit(query.pageSize)
+            let result = await UserModel.find(query.params).skip((Number(query.current) - 1) * Number(query.pageSize)).limit(Number(query.pageSize)).sort('-id')
             let total = await UserModel.find({}).count()
             return apiResponse.successResponseWithData(res, "Success.", result.length > 0 ? {
                 result,
                 current: 1,
                 pageSize: 20,
                 total
-
             } : {result: [], total});
         } catch (err) {
-            log.error('用户查询失败')
             return apiResponse.ErrorResponse(res, err);
         }
     }]
 
 /**
- * User Create.
- * @param {string}      id
+ * User Create. 提供给超级管理员添加用户的接口-可无需注册 直接登录
  *
  * @returns {Object}
  */
 exports.userCreate = [
     authenticate,
-    query("name", "name must not be empty.").isLength({min: 1}).trim().custom((value, {req}) => {
-        return UserModel.findOne({name: value}).then(book => {
-            if (book) {
-                return Promise.reject("name already exist with this ISBN no.");
-            }
-        });
-    }),
+    permissions,
+    //必填参数验证
+    [
+        body("username").isLength({min: 1}).trim().withMessage('昵称不能为空.'),
+        body("password").isLength({min: 6}).trim().withMessage('密码不能小于6位.').isInt().withMessage('密码必须为整数.'),
+        body('email').isLength({min: 1}).trim().withMessage('邮箱不能为空.').isEmail().normalizeEmail().withMessage('邮箱格式不正确.').custom((value, {req}) => {
+            return UserModel.findOne({email: value}).then(user => {
+                if (user) {
+                    return Promise.reject(`邮箱:${user.email}已被注册,请更换其他邮箱或前往登录.`);
+                }
+            });
+        }),
+    ],
     async (req, res) => {
         try {
             const errors = validationResult(req);
+            if (!errors.isEmpty()) return apiResponse.validationErrorWithData(res, "Validation Error.", errors.array()[0].msg);
 
-            if (!errors.isEmpty()) {
-                return apiResponse.validationErrorWithData(res, "Validation Error.", errors.array());
-            } else {
-                //Save user.
-                let array = [{
-                    name: req.query.name || '王五33',
-                    age: 22,
-                    address: '贵州省贵阳市',
-                    hobbies: ['你好啊', '前端']
-                }];
-                const addInfo = await UserModel.create(array)
-                if (addInfo) {
-                    return apiResponse.successResponseWithData(res, "user add Success.", addInfo);
-                }
-            }
+            //Save user.
+            let newUser = {
+                username: req.body.username,
+                password: req.body.password,
+                email: req.body.email,
+                isConfirmed: true, // 默认已进行校验
+            };
+            await UserModel.create(newUser)
+            delete newUser.password //不将密码响应出去
+            return apiResponse.successResponseWithData(res, "添加用户成功.", newUser);
         } catch (err) {
             return apiResponse.ErrorResponse(res, err);
         }
@@ -90,18 +87,20 @@ exports.userCreate = [
  */
 exports.userDelete = [
     authenticate,
+    permissions,
     async (req, res) => {
-        if (!mongoose.Types.ObjectId.isValid(req.query.id)) {
-            return apiResponse.validationErrorWithData(res, "Invalid Error.", "参数id错误");
-        }
+
+        if (!mongoose.Types.ObjectId.isValid(req.body.id)) return apiResponse.validationErrorWithData(res, "Invalid Error.", "参数id错误");
+
         try {
-            UserModel.findByIdAndDelete(req.query.id).then((user) => {
+            UserModel.findByIdAndDelete(req.body.id).then((user) => {
                 if (!user) {
-                    return apiResponse.notFoundResponse(res, '该条数据不存在或已被删除');
+                    return apiResponse.notFoundResponse(res, '该用户不存在或已被删除');
                 }
-                apiResponse.successResponse(res, '删除成功')
+                apiResponse.successResponse(res, '删除用户成功')
             })
         } catch (err) {
+            console.log(err)
             return apiResponse.ErrorResponse(res, err);
         }
     }
@@ -116,18 +115,27 @@ exports.userDelete = [
  */
 exports.userUpdate = [
     authenticate,
+    permissions,
+    [
+        body("username").isLength({min: 1}).trim().withMessage('昵称不能为空.'),
+        body("password").isLength({min: 6}).trim().withMessage('密码不能小于6位.').isInt().withMessage('密码必须为整数.'),
+        body('email').isLength({min: 1}).trim().withMessage('邮箱不能为空.').isEmail().normalizeEmail().withMessage('邮箱格式不正确.'),
+    ],
     async (req, res) => {
-        if (!mongoose.Types.ObjectId.isValid(req.query.id)) {
-            return apiResponse.validationErrorWithData(res, "Invalid Error.", "参数id错误");
-        }
+        if (!mongoose.Types.ObjectId.isValid(req.body.id)) return apiResponse.validationErrorWithData(res, "Invalid Error.", "参数id错误");
+
         try {
-            const userInfo = await UserModel.findById(req.query.id)
-            if (!userInfo) return apiResponse.notFoundResponse(res, "该ID下的数据不存在或被删除");
-            //update userData.
-            const userData = await UserModel.findByIdAndUpdate(req.query.id, req.query)
-            if (userData) return apiResponse.successResponse(res, "用户更新成功.", userData);
+            const errors = validationResult(req);
+            if (!errors.isEmpty()) return apiResponse.validationErrorWithData(res, "Validation Error.", errors.array()[0].msg);
+
+            const userInfo = await UserModel.findById(req.body.id)
+            if (!userInfo) return apiResponse.notFoundResponse(res, "该用户不存在");
+            //更新用户数据.
+            let updateData = {...req.body}
+            await UserModel.findByIdAndUpdate(req.body.id, updateData)
+            return apiResponse.successResponse(res, "用户更新成功.");
         } catch (err) {
-            //throw error in json response with status 500.
+            console.log(err)
             return apiResponse.ErrorResponse(res, err);
         }
     }
