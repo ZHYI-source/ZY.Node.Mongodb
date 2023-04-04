@@ -190,9 +190,9 @@ exports.resendConfirmCode = [
                     return apiResponse.ErrorResponse(res, err);
                 })
                 // 发送验证码
-                // await mailer.send(req.query.email, `✨您的验证码：${newCode}`)
+                await mailer.send(req.query.email, `✨您的验证码：${newCode}`)
                 req.session.code = newCode
-                console.log('验证码：', newCode)
+                console.log('新的验证码：', newCode)
                 return apiResponse.successResponse(res, "验证码发送成功！.");
 
             }

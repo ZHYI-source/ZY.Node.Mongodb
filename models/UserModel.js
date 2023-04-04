@@ -16,5 +16,4 @@ let UserSchema = new mongoose.Schema({
 //     .get(function () {
 //         return this.name + " " + this.sex;
 //     });
-// 根据表规范创建表
 module.exports = mongoose.model('User', UserSchema);

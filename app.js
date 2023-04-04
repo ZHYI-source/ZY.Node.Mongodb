@@ -16,7 +16,7 @@ require('express-async-errors');
 require('./db/index')
 const session = require('./middlewares/session')
 const app = express();
-
+//session 全局中间件配置
 app.use(session)
 //处理post参数解析
 app.use(bodyParser.json())
@@ -33,7 +33,7 @@ app.all('/v1/*', function (req, res, next) {
     res.header('Content-Type', 'application/json;charset=UTF-8')
     res.header('Access-Control-Allow-Headers', 'Content-Type,Content-Length, Authorization, Accept,X-Requested-With')
     res.header('Access-Control-Allow-Methods', 'PUT,POST,GET,DELETE,OPTIONS')
-    if (req.method == 'OPTIONS') res.send(200)
+    if (req.method === 'OPTIONS') res.send(200)
     /*让options请求快速返回*/
     else next()
 })
