@@ -32,6 +32,7 @@ exports.userlist = [
                 current: 1,
                 pageSize: 20,
                 total
+
             } : {result: [], total});
         } catch (err) {
             log.error('用户查询失败')
