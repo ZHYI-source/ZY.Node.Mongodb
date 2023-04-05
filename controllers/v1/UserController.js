@@ -1,10 +1,9 @@
 const mongoose = require('mongoose')
 const {body, validationResult} = require('express-validator');
-const {UserModel} = require('../models')
-const authenticate = require('../middlewares/jwt')
-const apiResponse = require('../helper/apiResponse')
-const permissions = require('../middlewares/permissions')
-const log = require('../utils/utils.logger')
+const {UserModel} = require('../../models/v1')
+const authenticate = require('../../middlewares/jwt')
+const apiResponse = require('../../utils/utils.apiResponse')
+const permissions = require('../../middlewares/permissions')
 
 /**
  * User list.

@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const apiResponse = require('../../helper/apiResponse')
+const apiResponse = require('../../utils/utils.apiResponse')
 
 
 /**

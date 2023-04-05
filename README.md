@@ -66,11 +66,15 @@
 │   ├── swagger.config.js
 │   └── ...
 ├── controllers             //控制模块（业务处理）
-│   ├── UserController.js
-│   └── ...
+│   └── v1
+│       ├── UserController.js
+│       └── ...
 ├── models                  //模型模块（建表）
-│   ├── index.js            //模型统一导出
-│   └── UserModel.js
+│   └── v1
+│       ├── index.js        /模型统一导出
+│       └── mapping
+│           ├──UserModel.js
+│           └── ...
 ├── routes                  //路由（配置实际API地址路径）
 │     └── v1
 │         ├── index.js
@@ -81,13 +85,16 @@
 │   └── ...
 ├── middlewares             //中间件
 │   ├── jwt.js
+│   ├── permissions.js
+│   ├── session.js
 │   └── ...
 ├── logs                    //日志
 │   ├── info.log
 │   ├── error.log
 │   └── ...
-└── helpers                 //辅助工具
-    ├── apiResponse.js
+└── utils                   //辅助工具
+    ├── utils.apiResponse.js
+    ├── utils.mailer.js.js
     └── ...
 ```
 

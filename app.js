@@ -5,7 +5,7 @@ const bodyParser = require('body-parser')
 const logger = require('morgan');
 const cors = require('cors');
 const mount = require('mount-routes')
-const apiResponse = require('./helper/apiResponse')
+const apiResponse = require('./utils/utils.apiResponse')
 // https://www.npmjs.com/package/chalk
 const chalk = require('chalk');
 const isDev = process.env.NODE_ENV === 'development'
@@ -23,8 +23,12 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: false}))
 //解决跨域
 app.use(cors())
-
-
+/*const fs = require('fs');
+fs.readdirSync(__dirname+'/models/mapping').forEach(function (file) {
+    // require(__dirname+'/models/mapping' + '/' + file);
+    var modelName = file.replace('Model.js', '');
+    console.log('***',__dirname)
+})*/
 // 设置跨域和相应数据格式
 app.all('/v1/*', function (req, res, next) {
     res.header('Access-Control-Allow-Origin', '*')

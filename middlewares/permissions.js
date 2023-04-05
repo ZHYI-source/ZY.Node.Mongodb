@@ -4,7 +4,7 @@
  *@Description:角色菜单权限验证中间件
  */
 const chalk = require('chalk');
-const apiResponse = require('../helper/apiResponse');
+const apiResponse = require('../utils/utils.apiResponse');
 const log = require('../utils/utils.logger');
 const permissions = (req, res, next) => {
 

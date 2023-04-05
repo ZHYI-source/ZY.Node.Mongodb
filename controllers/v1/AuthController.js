@@ -1,10 +1,10 @@
 const jwt = require("jsonwebtoken");
 const {body, query, validationResult} = require('express-validator');
-const {UserModel} = require('../models')
-const apiResponse = require('../helper/apiResponse')
-const mailer = require('../helper/mailer')
-const {randomNumber, encryption, decryption} = require('../utils/utils.others')
-const log = require('../utils/utils.logger')
+const {UserModel} = require('../../models/v1')
+const apiResponse = require('../../utils/utils.apiResponse')
+const mailer = require('../../utils/utils.mailer')
+const {randomNumber, encryption, decryption} = require('../../utils/utils.others')
+const log = require('../../utils/utils.logger')
 
 
 /**
@@ -57,11 +57,11 @@ exports.register = [
                 const addInfo = await UserModel.create(newUser)
                 if (addInfo) {
                     //发送邮件: 含有验证码、点击确认操作
-                    await mailer.send(req.body.email, `恭喜您已注册成功🎈 感谢您的支持！✨验证码：${code}`)
+                    await mailer.send(req.body.email, `恭喜您已注册成功🎈 感谢您的支持！✨验证码：${code}  有效期5分钟`)
                     //session存储验证码
                     req.session.code = code
                     console.log('验证码：', code)
-                    return apiResponse.successResponse(res, "注册成功,请注意您的邮箱信息,请进行账号确认.",);
+                    return apiResponse.successResponse(res, "注册成功,请注意您的邮箱信息,请在5分钟内进行账号确认.",);
                 }
             }
         } catch (err) {
@@ -197,11 +197,11 @@ exports.resendConfirmCode = [
                     return apiResponse.ErrorResponse(res, err);
                 })
                 // 发送验证码
-                await mailer.send(req.query.email, `✨您的验证码：${newCode}`)
+                await mailer.send(req.query.email, `✨您的验证码：${newCode}  有效期5分钟`)
                 //session存储验证码
                 req.session.code = newCode
                 console.log('新的验证码：', newCode)
-                return apiResponse.successResponse(res, "验证码发送成功！.");
+                return apiResponse.successResponse(res, "验证码发送成功！请在5分钟内进行验证.");
 
             }
         } catch (err) {
