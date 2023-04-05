@@ -2,7 +2,7 @@
 
 - 这是基于 Node.js、Express 和 MongoDB 进行 REST API 开发的样板。对于为Android，iOS或JavaScript Frameworks（Vue，React等）等前端平台构建纯净的Web API非常有用。
 
-- 该项目使用mongoDB作为数据库在nodejs上运行。我尝试做出轻松维护代码结构的项目样板，因为任何初学者也可以采用该流程并开始构建API。 项目开放，可以提出建议，错误报告和提取请求进一步优化。
+- 该项目使用mongoDB作为数据库在nodejs上运行。尝试做出轻松维护代码结构的项目样板，因为任何初学者也可以采用该流程并开始构建API。 项目开放，可以提出建议，错误报告和提取请求进一步优化。
 
 ## 作者
 
@@ -15,7 +15,8 @@
 
 ---
 
-- 轻量级API项目
+- 轻量级Node.js项目提供Restful API
+- 数据库采用 Mongodb, 通过Mongoose驱动。
 - MVC结构
 - CRUD操作示例
 - 跨域处理
