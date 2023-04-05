@@ -135,12 +135,12 @@
  - 到我主页留言[http://www.zhouyi.run](http://www.zhouyi.run/#/About)
  - 我的博客站点[http://blog.zhouyi.run](http://blog.zhouyi.run/#/)
 
-#### 赞赏作者
+#### 感谢作者
 如果该项目对你有帮助的话 可以通过扫下面二维码打赏来感谢我的努力和花费的时间来创建这个有用的项目。
 
-<div align="center">
-   <img src="public/md/zfb.jpg" width="200"> 
-   <img src="public/md/vx.jpg" width="200"> 
+<div>
+   <img src="public/md/zfb.jpg" width="100"> 
+   <img src="public/md/vx.jpg" width="100"> 
 </div>
 
 #### License
