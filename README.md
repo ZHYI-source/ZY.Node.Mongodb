@@ -6,12 +6,6 @@
 
 - 项目开放，可以提出建议、错误的issues 和 pr 一起优化。
 
-#### 作者
-
----
-
-- [@ZY_GITEE](https://gitee.com/Z568_568)
-- [@ZY_GITHUB](https://github.com/ZHYI-source)
 
 #### 项目特点
 
@@ -106,12 +100,43 @@
     ├── utils.mailer.js.js
     └── ...
 ```
+#### 作者
+
+---
+创建和维护
+ - [@ZY_GITEE](https://gitee.com/Z568_568) 
+ - [@ZY_GITHUB](https://github.com/ZHYI-source)
 
 #### License
 
 ---
 
 [MIT](https://choosealicense.com/licenses/mit/)
+
+```lc
+MIT License
+
+Copyright (c) [2023] [ZY]
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+```
 
 
  
