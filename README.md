@@ -1,4 +1,4 @@
-# ZY.Node.Mongodb
+# ZY.Node.Mongodb 
 
 #### 项目介绍
 
@@ -55,7 +55,8 @@
 
 **4，启动成功示例**
 
-![项目启动成功](public/docSnipaste_2023-04-05_17-47-35.png)
+![项目启动成功](public/md/api_ok.png)
+
 
 #### 项目结构
 
@@ -103,12 +104,29 @@
     ├── utils.mailer.js.js
     └── ...
 ```
-#### 作者
+#### 如何增加新的model
+只需在 `/models/v1/mapping/` 中创建一个新文件，
+然后在控制器`/controllers/v1/`中创建一个对应新模型的新控制器的并使用。
+
+#### 如何增加新的路由router
+只需在 `/routes/v1/` 中创建一个新文件，并且引入它对应的controllers进行使用，routes下面的文件 将被 `mount-routes`插件自动解析并以文件名作为api根路径，
+开发环境下会打印在终端上：
+![路由列表](public/md/mount_router.png)
+
+#### 如何增加新的控制器
+只需在 `/controllers/v1/` 中创建一个新文件即可，并且引入相关模型进行使用
+
+
+#### 关于作者
 
 ---
-创建和维护
+创建和维护由
  - [@ZY_GITEE](https://gitee.com/Z568_568) 
  - [@ZY_GITHUB](https://github.com/ZHYI-source)
+ - 想咨询其他或合作请发我邮箱1840354092@qq.com
+ - 到我主页留言[http://www.zhouyi.run](http://www.zhouyi.run/#/About)
+ - 我的博客站点[http://blog.zhouyi.run](http://blog.zhouyi.run/#/)
+
 
 #### License
 
