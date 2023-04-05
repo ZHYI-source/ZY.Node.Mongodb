@@ -2,6 +2,7 @@ const bcrypt = require("bcrypt");
 
 /**
  * 随机数
+ *
  * @param { number } length
  */
 exports.randomNumber = function (length) {
@@ -15,7 +16,8 @@ exports.randomNumber = function (length) {
 };
 
 /**
- * 加密数据
+ * bcrypt 加密数据
+ *
  * @param { number , string } value
  */
 exports.encryption = function (value) {
@@ -27,11 +29,11 @@ exports.encryption = function (value) {
             resolve(hash)
         });
     })
-
 };
 
 /**
- * 解密数据
+ * bcrypt 解密数据
+ *
  * @param { number , string  } value 未加密的值
  * @param { string } enValue 已加密的值
  */
@@ -44,7 +46,6 @@ exports.decryption = function (value, enValue) {
             resolve(same)
         });
     })
-
 };
 
 

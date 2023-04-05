@@ -1,17 +1,17 @@
 # ZY.Node.Mongodb
 
-- 这是基于 Node.js、Express 和 MongoDB 进行 REST API 开发的样板。对于为Android，iOS或JavaScript Frameworks（Vue，React等）等前端平台构建纯净的Web API非常有用。
+- 基于 Node.js、Express.js 和 MongoDB 通过Mongoose驱动进行 REST API 开发的轻量级样板。集成了Swagger UI、JWT、session、发送邮箱验证、日志管理、统一的预定义状态码响应格式等，对于为前端平台构建纯净的Web API非常有用。。
 
-- 该项目使用mongoDB作为数据库在nodejs上运行。尝试做出轻松维护代码结构的项目样板，因为任何初学者也可以采用该流程并开始构建API。 项目开放，可以提出建议，错误报告和提取请求进一步优化。
+- 该项目我尝试做出轻松维护代码结构的项目样板，因为任何初学者也可以采用该流程并开始构建API。 项目开放，可以提出建议，错误报告和提取请求进一步优化。
 
-## 作者
+#### 作者
 
 ---
 
 - [@ZY_GITEE](https://gitee.com/Z568_568)
 - [@ZY_GITHUB](https://github.com/ZHYI-source)
 
-## 项目特点
+#### 项目特点
 
 ---
 
@@ -32,9 +32,17 @@
 - session 验证码校验
 
 
-## 启动安装
+#### 获得并运行项目：
 
 ---
+
+> 首先确保您系统中安装了[Mongodb](http://www.mongodb.org/)，和[Nodejs](http://nodejs.org/ "Nodejs")，一起准备完善之后。按照如下操作。
+> 有的同学启动会报错可能是依赖包的版本问题需要注意
+> 我的环境配置供参考 
+> - Node.js 14.18.1+ 
+> - MongoDB 5.1+
+
+
 ```bash
   git clone https://gitee.com/Z568_568/node.mongodb.git
   cd node.mongodb
@@ -44,14 +52,14 @@
   生产环境：npm run start
 ```
 
-## 环境参考
+#### 环境参考
 
 ---
 
 - Node.js 14.18.1+
 - MongoDB 5.1+
 
-## 项目结构
+#### 项目结构
 
 ---
 
@@ -98,7 +106,7 @@
     └── ...
 ```
 
-## License
+#### License
 
 ---
 
