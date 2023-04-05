@@ -2,7 +2,9 @@
 
 - 基于 Node.js、Express.js 和 MongoDB 通过Mongoose驱动进行 REST API 开发的轻量级样板。集成了Swagger UI、JWT、session、发送邮箱验证、日志管理、统一的预定义状态码响应格式等，对于为前端平台构建纯净的Web API非常有用。。
 
-- 该项目我尝试做出轻松维护代码结构的项目样板，因为任何初学者也可以采用该流程并开始构建API。 项目开放，可以提出建议，错误报告和提取请求进一步优化。
+- 该项目我尝试做出轻松维护代码结构的项目样板，因为任何初学者也可以采用该流程并开始构建API。 
+
+- 项目开放，可以提出建议、错误的issues 和 pr 一起优化。
 
 #### 作者
 
@@ -17,7 +19,6 @@
 
 - 轻量级Node.js项目提供Restful API
 - 数据库采用 Mongodb, 通过Mongoose驱动。
-- MVC结构
 - CRUD操作示例
 - 跨域处理
 - 日志管理
@@ -55,7 +56,9 @@
  >  `开发环境：npm run dev  基于 nodemon 热更新`
  >  `生产环境：npm run start`
 
-![输入图片说明](public/docSnipaste_2023-04-05_17-47-35.png)
+**4，启动成功示例**
+
+![项目启动成功](public/docSnipaste_2023-04-05_17-47-35.png)
 
 #### 项目结构
 
