@@ -42,23 +42,20 @@
 > - Node.js 14.18.1+ 
 > - MongoDB 5.1+
 
+**1，clone代码**
 
-```bash
-  git clone https://gitee.com/Z568_568/node.mongodb.git
-  cd node.mongodb
-  npm i
-  **************************************************
-  开发环境：npm run dev  基于 nodemon 热更新
-  生产环境：npm run start
-```
+ >  `git clone https://gitee.com/Z568_568/node.mongodb.git`
+ 
+**2，安装依赖**
 
-#### 环境参考
+ >  `npm install`
 
----
+**3，启动程序**
 
-- Node.js 14.18.1+
-- MongoDB 5.1+
+ >  `开发环境：npm run dev  基于 nodemon 热更新`
+ >  `生产环境：npm run start`
 
+ 
 #### 项目结构
 
 ---
