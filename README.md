@@ -111,6 +111,7 @@
 #### 如何增加新的路由router
 只需在 `/routes/v1/` 中创建一个新文件，并且引入它对应的controllers进行使用，routes下面的文件 将被 `mount-routes`插件自动解析并以文件名作为api根路径，
 开发环境下会打印在终端上：
+
 ![路由列表](public/md/mount_router.png)
 
 #### 如何增加新的控制器
